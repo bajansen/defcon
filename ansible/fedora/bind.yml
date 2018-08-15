@@ -1,0 +1,11 @@
+---
+- hosts: all
+  sudo: true
+  tasks:
+      - name: ensure bind is at the latest version
+        dnf: pkg=bind state=latest
+        notify:
+            - start bind
+  handlers:
+      - name: start bind
+        systemd: name=named state=started

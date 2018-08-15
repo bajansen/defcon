@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+      - name: ensure ntp is at the latest version
+        apt: pkg=ntp state=latest update_cache=yes
+        notify:
+            - start ntp
+  handlers:
+      - name: start ntp
+        systemd: name=ntp state=started

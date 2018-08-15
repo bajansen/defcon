@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+      - name: ensure mariadb is at the latest version
+        apt: pkg=mariadb-server state=latest
+        notify:
+            - start mariadb
+  handlers:
+      - name: start mariadb
+        systemd: name=mariadb state=started

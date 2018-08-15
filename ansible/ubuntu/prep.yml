@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: true
+  become_user: root
+  gather_facts: False
+  
+  tasks:
+  - name: install python 2
+    raw: test -f /usr/bin/python || (apt -y update && apt install -y python-minimal)
+  - setup:

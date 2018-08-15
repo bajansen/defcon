@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+      - name: ensure sendmail is at the latest version
+        apt: pkg=sendmail-bin state=present update_cache=yes
+        notify:
+            - start sendmail
+  handlers:
+      - name: start sendmail
+        service: name=sendmail state=started

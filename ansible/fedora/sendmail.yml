@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+      - name: ensure sendmail is at the latest version
+        dnf: pkg=sendmail state=latest
+        notify:
+            - start sendmail
+  handlers:
+      - name: start sendmail
+        systemd: name=sendmail state=started

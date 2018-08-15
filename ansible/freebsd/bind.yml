@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+      - name: ensure bind is present
+        pkgng: pkg=bind912 state=present
+        notify:
+            - start named
+  handlers:
+      - name: start named
+        service: name=named state=started

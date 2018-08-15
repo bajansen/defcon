@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+      - name: ensure postfix is at the latest version
+        pkgng: pkg=postfix state=present
+        notify:
+            - start postfix
+  handlers:
+      - name: start postfix
+        service: name=postfix state=started

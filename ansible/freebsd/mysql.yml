@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+      - name: ensure mariadb is at the latest version
+        pkgng: pkg=mariadb55-server state=present
+        notify:
+            - start mariadb
+  handlers:
+      - name: start mariadb
+        service: name=mysql-server state=started

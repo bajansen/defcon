@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+      - name: ensure mariadb is at the latest version
+        yum: pkg=mysql-server state=latest
+        notify:
+            - start mysql
+  handlers:
+      - name: start mysql
+        service: name=mysqld state=started

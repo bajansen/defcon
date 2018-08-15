@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+      - name: ensure bind9 is at the latest version
+        apt: pkg=bind9 state=latest update_cache=yes
+        notify:
+            - start bind9
+  handlers:
+      - name: start bind9
+        systemd: name=bind9 state=started

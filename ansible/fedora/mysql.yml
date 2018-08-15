@@ -1,0 +1,11 @@
+---
+- hosts: all
+  sudo: true
+  tasks:
+      - name: ensure mariadb is at the latest version
+        dnf: pkg=mariadb-server state=latest
+        notify:
+            - start mariadb
+  handlers:
+      - name: start mariadb
+        systemd: name=mariadb state=started

@@ -1,0 +1,11 @@
+---
+- hosts: all
+  sudo: true
+  tasks:
+      - name: ensure unbound is at the latest version
+        dnf: pkg=unbound state=latest
+        notify:
+            - start unbound
+  handlers:
+      - name: start unbound
+        systemd: name=unbound state=started

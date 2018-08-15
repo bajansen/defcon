@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+      - name: ensure unbound is at the latest version
+        pkgng: pkg=unbound state=present
+        notify:
+            - start unbound
+  handlers:
+      - name: start unbound
+        service: name=unbound state=started

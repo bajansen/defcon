@@ -1,0 +1,41 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+      - name: ensure isc-dhcp-server is at the latest version
+        apt: pkg=isc-dhcp-server state=present update_cache=yes
+      - name: copy dhcp config
+        copy:
+            src: dhcpd.conf
+            dest: /etc/dhcp/dhcpd.conf
+            owner: root
+            group: root
+            mode: 0644
+      - name: copy commit script
+        copy:
+            src: commit.sh
+            dest: /etc/dhcp/commit.sh
+            owner: root
+            group: root
+            mode: 744
+      - name: copy startup options
+        copy:
+            src: defaults.txt
+            dest: /etc/default/isc-dhcp-server
+            owner: root
+            group: root
+            mode: 0644
+        notify:
+            - restart isc-dhcp-server
+      - name: install dig
+        apt: pkg=dnsutils state=present
+      - name: install mysql client
+        apt: pkg=mariadb-client state=present
+      - name: install mosquitto clients
+        apt: pkg=mosquitto-clients state=present
+      - name: install swaks
+        apt: pkg=swaks state=present
+  handlers:
+      - name: restart isc-dhcp-server
+        systemd: name=isc-dhcp-server state=restarted

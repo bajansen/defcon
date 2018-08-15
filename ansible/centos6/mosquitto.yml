@@ -1,0 +1,7 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+      - name: Placeholder as there is no mosquitto package in the CentOS 6 repositories
+        shell: echo 'CentOS 6 does not include mosquitto in its repositories'

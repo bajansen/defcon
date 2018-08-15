@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+      - name: ensure ntp is at the latest version
+        dnf: pkg=ntp state=latest
+        notify:
+            - start ntp
+  handlers:
+      - name: start ntp
+        systemd: name=ntpd state=started
